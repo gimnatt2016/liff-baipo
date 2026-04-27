@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BAIPO COFFEE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+
+<h2>สมัครสมาชิก</h2>
+<input type="text" id="name" placeholder="ชื่อ"><br><br>
+<input type="text" id="phone" placeholder="เบอร์โทร"><br><br>
+<button onclick="register()">สมัครสมาชิก</button>
+
+<hr>
+
+<h2>รับแต้ม</h2>
+<button onclick="getPoint()">รับแต้ม</button>
+
+<p id="result"></p>
+
+<script>
+const LIFF_ID = "2009903789-RyoVqnYH";
+
+// 🔥 เริ่มต้น LIFF
+async function main() {
+  await liff.init({ liffId: LIFF_ID });
+
+  // ✅ ถ้ายังไม่ login ให้ login อัตโนมัติ
+  if (!liff.isLoggedIn()) {
+    liff.login();
+    return;
+  }
+}
+
+// 🔹 สมัครสมาชิก
+async function register() {
+  try {
+    const profile = await liff.getProfile();
+
+    const data = {
+      userId: profile.userId,
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value
+    };
+
+    // ❗ ตอนนี้ยังไม่ใส่ GAS จะโชว์ข้อความแทน
+    document.getElementById("result").innerText =
+      "สมัครสำเร็จ (จำลอง) : " + data.name;
+
+  } catch (err) {
+    document.getElementById("result").innerText = "เกิดข้อผิดพลาด: " + err;
+  }
+}
+
+// 🔹 รับแต้ม
+async function getPoint() {
+  try {
+    const profile = await liff.getProfile();
+
+    document.getElementById("result").innerText =
+      "รับแต้มสำเร็จ (จำลอง) USER: " + profile.userId;
+
+  } catch (err) {
+    document.getElementById("result").innerText = "เกิดข้อผิดพลาด: " + err;
+  }
+}
+
+// เรียกใช้งาน
+main();
+</script>
+
+</body>
+</html>
